@@ -150,6 +150,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'core' / 'static']
+# Absolute destination for collectstatic so the deployment server can gather
+# static files. Unused by the local dev server, so http development is unchanged.
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -182,8 +185,11 @@ X_FRAME_OPTIONS = 'DENY'
 SESSION_COOKIE_SECURE = PRODUCTION
 CSRF_COOKIE_SECURE = PRODUCTION
 SECURE_SSL_REDIRECT = PRODUCTION
-# Tell the app it is behind TLS terminated by the platform proxy.
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') if PRODUCTION else None
+# Trust the platform proxy's forwarded-protocol header so Django detects HTTPS
+# behind PythonAnywhere's TLS termination, avoiding a redirect loop when the
+# HTTPS redirect is on. Safe to set unconditionally: locally the header is
+# absent, so requests are correctly treated as plain http.
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # One year of HSTS, covering subdomains, only in production.
 SECURE_HSTS_SECONDS = 31536000 if PRODUCTION else 0
 SECURE_HSTS_INCLUDE_SUBDOMAINS = PRODUCTION

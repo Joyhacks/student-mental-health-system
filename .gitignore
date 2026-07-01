@@ -10,3 +10,6 @@ __pycache__/
 
 # SQLite database
 db.sqlite3
+
+# Collected static files (generated on the server by collectstatic)
+staticfiles/
