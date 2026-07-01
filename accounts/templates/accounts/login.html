@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign in{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto mt-10">
+  <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-8">
+    <h1 class="text-xl font-semibold text-slate-800">Sign in</h1>
+    <p class="mt-1 text-sm text-slate-500">Student Mental Health Information Management System</p>
+
+    {% if locked_out %}
+    <div class="mt-6 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800">
+      Too many failed attempts. Please wait a few minutes and try again.
+    </div>
+    {% elif form.non_field_errors %}
+    <div class="mt-6 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+      {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+    </div>
+    {% endif %}
+
+    <form method="post" class="mt-6 space-y-4" novalidate>
+      {% csrf_token %}
+      <div>
+        <label for="id_username" class="block text-sm font-medium text-slate-700">Username</label>
+        <input type="text" name="username" id="id_username" value="{{ form.username.value|default:'' }}"
+               autocomplete="username" autofocus required
+               class="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+      </div>
+      <div>
+        <label for="id_password" class="block text-sm font-medium text-slate-700">Password</label>
+        <input type="password" name="password" id="id_password" autocomplete="current-password" required
+               class="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+      </div>
+      <button type="submit"
+              class="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+        Sign in
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

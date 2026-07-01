@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Student Mental Health System{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen flex flex-col bg-slate-50 text-slate-800">
+  {% if user.is_authenticated %}
+  <nav class="bg-white border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="{% url 'dashboard' %}" class="font-semibold text-slate-700">Student Mental Health System</a>
+      <div class="flex items-center gap-4 text-sm">
+        <span class="text-slate-600">
+          {{ user.get_full_name|default:user.username }}
+          <span class="ml-1 inline-block rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-500">{{ user_role }}</span>
+        </span>
+        <form method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="text-blue-600 hover:text-blue-800">Log out</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+  {% endif %}
+
+  <main class="flex-1">
+    <div class="max-w-5xl mx-auto px-4 py-8">
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+</body>
+</html>

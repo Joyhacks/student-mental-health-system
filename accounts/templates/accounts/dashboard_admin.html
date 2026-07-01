@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Administrator dashboard{% endblock %}
+
+{% block content %}
+<header class="mb-6">
+  <h1 class="text-2xl font-semibold text-slate-800">Administrator dashboard</h1>
+  <p class="mt-1 text-sm text-slate-500">Full access to users, records, and the audit trail.</p>
+</header>
+
+<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+  <div class="rounded-lg border border-slate-200 bg-white p-5">
+    <h2 class="font-medium text-slate-800">Manage Users</h2>
+    <p class="mt-1 text-sm text-slate-500">Create accounts and assign roles.</p>
+    <a href="{% url 'admin:auth_user_changelist' %}"
+       class="mt-4 inline-block rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700">Manage users</a>
+  </div>
+  <div class="rounded-lg border border-slate-200 bg-white p-5">
+    <h2 class="font-medium text-slate-800">View Audit Logs</h2>
+    <p class="mt-1 text-sm text-slate-500">Review every access and change.</p>
+    <a href="{% url 'audit:log' %}"
+       class="mt-4 inline-block rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700">Open audit log</a>
+  </div>
+  <div class="rounded-lg border border-slate-200 bg-white p-5">
+    <h2 class="font-medium text-slate-800">All Records</h2>
+    <p class="mt-1 text-sm text-slate-500">Browse and manage every student record.</p>
+    <a href="{% url 'records:list' %}"
+       class="mt-4 inline-block rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700">Open records</a>
+  </div>
+</div>
+{% endblock %}

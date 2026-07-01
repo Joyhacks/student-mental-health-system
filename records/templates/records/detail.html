@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Record detail{% endblock %}
+
+{% block content %}
+<div class="mb-6 flex items-center justify-between">
+  <div>
+    <h1 class="text-2xl font-semibold text-slate-800">{{ record.get_record_type_display }}</h1>
+    <p class="mt-1 text-sm text-slate-500">{{ record.student.full_name }} ({{ record.student.matric_number }})</p>
+  </div>
+  <div class="flex items-center gap-3">
+    {% if can_edit %}
+    <a href="{% url 'records:update' record.pk %}"
+       class="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">Edit</a>
+    {% endif %}
+    {% if can_delete %}
+    <a href="{% url 'records:delete' record.pk %}"
+       class="rounded-md border border-red-300 px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-50">Delete</a>
+    {% endif %}
+  </div>
+</div>
+
+<div class="rounded-lg border border-slate-200 bg-white p-6">
+  <dl class="grid gap-4 sm:grid-cols-2">
+    <div>
+      <dt class="text-xs uppercase tracking-wide text-slate-400">Student</dt>
+      <dd class="mt-1 text-slate-800">{{ record.student.full_name }}</dd>
+    </div>
+    <div>
+      <dt class="text-xs uppercase tracking-wide text-slate-400">Author (counselor)</dt>
+      <dd class="mt-1 text-slate-800">{{ record.counselor.get_full_name|default:record.counselor.username }}</dd>
+    </div>
+    <div>
+      <dt class="text-xs uppercase tracking-wide text-slate-400">Record type</dt>
+      <dd class="mt-1 text-slate-800">{{ record.get_record_type_display }}</dd>
+    </div>
+    <div>
+      <dt class="text-xs uppercase tracking-wide text-slate-400">Date assessed</dt>
+      <dd class="mt-1 text-slate-800">{{ record.date_assessed }}</dd>
+    </div>
+  </dl>
+
+  <div class="mt-6">
+    <dt class="text-xs uppercase tracking-wide text-slate-400">Content</dt>
+    <dd class="mt-2 whitespace-pre-wrap rounded-md bg-slate-50 p-4 text-slate-800">{{ record.content }}</dd>
+  </div>
+
+  <p class="mt-6 text-xs text-slate-400">
+    Created {{ record.created_at }} &middot; last updated {{ record.updated_at }}
+  </p>
+</div>
+
+<div class="mt-6">
+  <a href="{% url 'records:list' %}" class="text-sm text-blue-600 hover:text-blue-800">Back to records</a>
+</div>
+{% endblock %}
