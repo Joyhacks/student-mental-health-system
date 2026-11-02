@@ -75,6 +75,13 @@ field was re-tested after the upgrade and continues to pass. A re-run of pip-aud
 reports **No known vulnerabilities found**. The output is saved in
 `pip_audit_report.txt`.
 
+A later run (November 2026) flagged new advisories against Django 4.2.30, which
+had reached end of support, and against `cryptography` 49.0.0. Django was moved
+to the 5.2 LTS line (5.2.18) and `cryptography` to 50.0.0. All 26 tests, `check`
+and `check --deploy` pass unchanged on the new versions, and pip-audit is clean
+again. CI now runs the tests, bandit and pip-audit on every push, so a new
+advisory fails the build instead of waiting for the next manual audit.
+
 ## 3. Production hardening
 
 All hardening is gated on the `DJANGO_PRODUCTION` environment flag so the same
